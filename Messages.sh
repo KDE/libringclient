@@ -1,3 +1,3 @@
 #! /bin/sh
 
-$XGETTEXT_QT `find . -name '*.cpp'` -o $podir/libringclient.pot
+$XGETTEXT_QT `find . -name '*.cpp'` -o $podir/libringclient_qt.pot
