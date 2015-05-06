@@ -19,6 +19,7 @@
 #include "phonedirectorymodel.h"
 #include "person.h"
 #include "account.h"
+#include "accountmodel.h"
 #include "private/account_p.h"
 #include "call.h"
 #include "dbus/presencemanager.h"
@@ -387,6 +388,42 @@ QString ContactMethod::primaryName() const
 
    //Return the cached primaryname
    return d_ptr->m_PrimaryName_cache;
+}
+
+/**
+ * Guess if a contact method is reachable with the current accounts.
+ *
+ * @note this ignore Account availability because they could be up by the time the
+ * user click on it.
+ *
+ * @warning This return a fast approximation, results should be checked more profoundly
+ * for critical code.
+ */
+bool ContactMethod::isReachable() const
+{
+   static AccountModel* m = AccountModel::instance();
+
+   switch (protocolHint()) {
+      case URI::ProtocolHint::SIP_HOST :
+      case URI::ProtocolHint::IP       :
+         if (m->isIP2IPSupported())
+            return true;
+         //no break
+      case URI::ProtocolHint::SIP_OTHER:
+         if (m->isSipSupported  ())
+            return true;
+         break;
+      case URI::ProtocolHint::IAX      :
+         if (m->isIAXSupported  ())
+            return true;
+         break;
+      case URI::ProtocolHint::RING     :
+         if (m->isRingSupported ())
+            return true;
+         break;
+   }
+
+   return false;
 }
 
 ///Is this number bookmarked

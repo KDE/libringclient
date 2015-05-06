@@ -72,6 +72,7 @@ public:
    void slotContactMethodCountChanged      (int,int         );
    void slotContactMethodCountAboutToChange(int,int         );
 };
+
 class CategorizedContactModelPrivate : public QObject
 {
    Q_OBJECT
@@ -120,8 +121,9 @@ ContactTreeNode::ContactTreeNode(const Person* ct, CategorizedContactModel* pare
 
 ContactTreeNode::ContactTreeNode(ContactMethod* cm, CategorizedContactModel* parent) : CategorizedCompositeNode(CategorizedCompositeNode::Type::NUMBER),
    m_pContactMethod(cm),m_Index(-1),m_pContact(nullptr),m_Type(ContactTreeNode::NodeType::CONTACTMETHOD),m_pParent(nullptr),m_pModel(parent),
-   m_Visible(true)
+   m_Visible(false)
 {
+   m_Visible = ((!parent->d_ptr->m_UnreachableHidden) || m_pContactMethod->isReachable());;
    QObject::connect(m_pContactMethod,&ContactMethod::changed,[this](){ slotChanged(); });
 }
 

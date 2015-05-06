@@ -457,33 +457,11 @@ bool Person::isReachable() const
    if (!d_ptr->m_Numbers.size())
       return false;
 
-   AccountModel* m = AccountModel::instance();
-
-   const bool hasSip   = m->isSipSupported  ();
-   const bool hasIAX   = m->isIAXSupported  ();
-   const bool hasIP2IP = m->isIP2IPSupported();
-   const bool hasRing  = m->isRingSupported ();
+   static AccountModel* m = AccountModel::instance();
 
    for (const ContactMethod* n : d_ptr->m_Numbers) {
-      switch (n->protocolHint()) {
-         case URI::ProtocolHint::SIP_HOST :
-         case URI::ProtocolHint::IP       :
-            if (hasIP2IP)
-               return true;
-            //no break
-         case URI::ProtocolHint::SIP_OTHER:
-            if (hasSip)
-               return true;
-            break;
-         case URI::ProtocolHint::IAX      :
-            if (hasIAX)
-               return true;
-            break;
-         case URI::ProtocolHint::RING     :
-            if (hasRing)
-               return true;
-            break;
-      }
+      if (n->isReachable())
+         return true;
    }
    return false;
 }

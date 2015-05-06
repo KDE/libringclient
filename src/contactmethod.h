@@ -75,6 +75,7 @@ public:
    Q_PROPERTY(QVariant          icon             READ icon                                            )
    Q_PROPERTY(int               totalSpentTime   READ totalSpentTime                                  )
    Q_PROPERTY(URI::ProtocolHint protocolHint     READ protocolHint                                    )
+   Q_PROPERTY(bool              isReachable      READ isReachable                                     )
 
 //    Q_PROPERTY(QHash<QString,int> alternativeNames READ alternativeNames         )
 
@@ -112,6 +113,7 @@ public:
    int                 totalSpentTime  () const;
    QString             uid             () const;
    URI::ProtocolHint   protocolHint    () const;
+   bool                isReachable     () const;
 
    QVariant roleData(int role) const;
 
