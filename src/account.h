@@ -44,6 +44,7 @@ class BootstrapModel         ;
 
 //Private
 class AccountPrivate;
+class AccountPlaceHolderPrivate;
 
 
 ///@enum DtmfType Different method to send the DTMF (key sound) to the peer
@@ -452,6 +453,9 @@ class LIB_EXPORT AccountPlaceHolder : public Account {
    friend class AccountModel;
 private:
    explicit AccountPlaceHolder(const QByteArray& uid);
+
+   AccountPlaceHolderPrivate* d_ptr;
+   Q_DECLARE_PRIVATE(AccountPlaceHolder)
 };
 
 

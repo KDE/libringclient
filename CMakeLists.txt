@@ -482,6 +482,7 @@ SET(libringclient_PRIVATE_HDRS
    src/private/collectionmodel_p.h
    src/private/securityflaw_p.h
    src/collectioncreationinterface.h
+   src/private/securityevaluationmodel_p.h
    src/collectionconfigurationinterface.h
 )
 
