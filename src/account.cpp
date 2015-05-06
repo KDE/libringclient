@@ -721,12 +721,6 @@ bool Account::isTlsEnabled() const
    return protocol() == Account::Protocol::RING || (d_ptr->accountDetail(DRing::Account::ConfProperties::TLS::ENABLED) IS_TRUE);
 }
 
-///Return the key exchange mechanism
-KeyExchangeModel::Type Account::keyExchange() const
-{
-   return KeyExchangeModel::fromDaemonName(d_ptr->accountDetail(DRing::Account::ConfProperties::SRTP::KEY_EXCHANGE));
-}
-
 ///Return if the ringtone are enabled
 bool Account::isRingtoneEnabled() const
 {
@@ -1292,14 +1286,6 @@ void Account::setLastErrorCode(int code)
 {
    d_ptr->m_LastErrorCode = code;
 }
-
-///Set the Tls method
-void Account::setKeyExchange(KeyExchangeModel::Type detail)
-{
-   d_ptr->setAccountProperty(DRing::Account::ConfProperties::SRTP::KEY_EXCHANGE ,KeyExchangeModel::toDaemonName(detail));
-   d_ptr->regenSecurityValidation();
-}
-
 ///Set the account timeout, it will be renegotiated when that timeout occur
 void Account::setRegistrationExpire(int detail)
 {
@@ -1610,11 +1596,6 @@ void Account::setRoleData(int role, const QVariant& value)
       case CAST(Account::Role::RingtonePath):
          setRingtonePath(value.toString());
          break;
-      case CAST(Account::Role::KeyExchange): {
-         const int method = value.toInt();
-         setKeyExchange(method<=keyExchangeModel()->rowCount()?static_cast<KeyExchangeModel::Type>(method):KeyExchangeModel::Type::NONE);
-         break;
-      }
       case CAST(Account::Role::RegistrationExpire):
          setRegistrationExpire(value.toInt());
          break;

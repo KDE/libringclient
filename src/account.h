@@ -41,6 +41,7 @@ class AccountStatusModel     ;
 class ProtocolModel          ;
 class CodecModel             ;
 class BootstrapModel         ;
+class KeyExchangeModelPrivate;
 
 //Private
 class AccountPrivate;
@@ -82,6 +83,8 @@ class LIB_EXPORT Account : public QObject {
    friend class TlsMethodModelPrivate;
    friend class TlsMethodModel;
    friend class BootstrapModelPrivate;
+   friend class KeyExchangeModel;
+   friend class KeyExchangeModelPrivate;
    friend class ContactMethod;
    friend class Certificate;
 
@@ -103,7 +106,6 @@ class LIB_EXPORT Account : public QObject {
    Q_PROPERTY(QString        localInterface               READ localInterface                WRITE setLocalInterface              )
    Q_PROPERTY(QString        ringtonePath                 READ ringtonePath                  WRITE setRingtonePath                )
    Q_PROPERTY(QString        lastErrorMessage             READ lastErrorMessage              WRITE setLastErrorMessage            )
-   Q_PROPERTY(KeyExchangeModel::Type keyExchange          READ keyExchange                   WRITE setKeyExchange                 )
    Q_PROPERTY(int            lastErrorCode                READ lastErrorCode                 WRITE setLastErrorCode               )
    Q_PROPERTY(int            registrationExpire           READ registrationExpire            WRITE setRegistrationExpire          )
    Q_PROPERTY(int            tlsNegotiationTimeoutSec     READ tlsNegotiationTimeoutSec      WRITE setTlsNegotiationTimeoutSec    )
@@ -198,7 +200,6 @@ class LIB_EXPORT Account : public QObject {
          PublishedAddress            = 114,
          LocalInterface              = 115,
          RingtonePath                = 116,
-         KeyExchange                 = 190,
          RegistrationExpire          = 118,
          TlsNegotiationTimeoutSec    = 119,
          TlsNegotiationTimeoutMsec   = 120,
@@ -334,7 +335,6 @@ class LIB_EXPORT Account : public QObject {
       QString turnServer                   () const;
       RegistrationState  registrationState () const;
       Protocol               protocol      () const;
-      KeyExchangeModel::Type keyExchange   () const;
 
       bool   isUsedForOutgogingCall () const;
       uint   totalCallCount         () const;
@@ -368,7 +368,6 @@ class LIB_EXPORT Account : public QObject {
       void setRingtonePath                  (const QString& detail  );
       void setLastErrorMessage              (const QString& message );
       void setTurnServer                    (const QString& value   );
-      void setKeyExchange                   (KeyExchangeModel::Type detail);
       void setLastErrorCode                 (int  code  );
       void setVoiceMailCount                (int  count );
       void setRegistrationExpire            (int  detail);
